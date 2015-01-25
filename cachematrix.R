@@ -48,30 +48,20 @@ makeCacheMatrix <- function(x = matrix()) {
 ## If not, the inverse will be calculated.
 
 cacheSolve <- function(x, ...) {
-    ## Return a matrix that is the inverse of 'x'
 	
 	## Retrieve current copy of matrix
 	data <- x$get()
 	
-	## Compare matrix to determine inverse is still valid
-	##bolIdentical <- equalMatrix(x,data)
-  ##print(a)
-  ##print(data)
-	##if  (bolIdentical) {
-	##	message("original matrix valid")
-		## if matrix is identical, retrieve stored copy of inverse
-		m <- x$getInverse()
-		if (!is.null(m)) {
-			## if inverse is never cached, calculate new copy
-			message("getting cached inverse")
-			return (m)
-		}
-	##} else {
-		##message("original matrix expired or changed")
-		## Calculate new copy of inverse
-		m <- solve(data, ...)
-		x$setInverse(m)
-		return (m)
-	##}
+	m <- x$getInverse()
+	if (!is.null(m)) {
+		## if inverse is cached, return cache
+		message("getting cached inverse")
+	  return (m)
+	}
+	
+	## Calculate new copy of inverse
+	m <- solve(data, ...)
+	x$setInverse(m)
+	return (m)
 }
 
